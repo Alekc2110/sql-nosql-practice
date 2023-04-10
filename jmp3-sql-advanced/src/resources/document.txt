@@ -1,0 +1,129 @@
+Select students who does not pass any exam using each the following operator:
+Outer join
+Sub query with ‘not in’ clause
+Sub query with ‘any‘
+-- test approach for 1000 exams and 10 students
+select with Outer join -> average Planning Time: 0.156 ms/Execution Time: 0.949 ms7
+
+select with ‘not in’ clause -> average Planning Time: 0.100 ms/Execution Time: 0.896 ms
+
+select with ‘any’ -> average Planning Time: 0.094 ms/Execution Time: 1.088 ms
+-----------------------------------------------------------------------------
+-- test approach for 10_000 exams and 1000 students
+select with Outer join -> average Planning Time: 0.159 ms/Execution Time: 2.230 ms
+
+select with ‘not in’ clause -> average Planning Time: 0.085 ms/Execution Time: 2.003 ms
+
+select with ‘any’ -> average Planning Time: 0.102 ms/Execution Time: 2.620 ms
+------------------------------------------------------------------------------
+-- test approach for 100_000 exams and 100_000 students
+select with Outer join -> average Planning Time: 0.249 ms/Execution Time: 140.962 ms
+
+select with ‘not in’ clause -> average Planning Time: 0.101 ms/Execution Time: 126.431 ms
+
+select with ‘any’ -> average Planning Time: 0.088 ms/Execution Time: 62.597 ms
+------------------------------------------------------------------------------
+conclusion: any clause -> most effective on big data
+------------------------------------------------------------------------------
+
+analyze/improvement
+data - 100K Students
+
+***
+--SELECT primary_skill FROM student WHERE primary_skill ~ '^.*[-\s].*';
+Planning Time: 0.066 ms/Execution Time: 50.501 ms
+Seq Scan on student  (cost=0.00..2256.76 rows=83174 width=10)
+(actual time=0.013..48.679 rows=83310 loops=1)
+
+with index on primary_skill:
+*btree index*
+Planning Time: 0.110 ms/Execution Time: 43.654 ms
+Index Only Scan using student_primary_skill_idx on student  (cost=0.29..2100.56 rows=83174 width=10)
+(actual time=0.074..41.973 rows=83310 loops=1)
+
+*gin index*
+Planning Time: 0.165 ms/Execution Time: 47.432 ms
+Seq Scan on student  (cost=0.00..2256.76 rows=83174 width=10) (actual time=0.019..45.609 rows=83310 loops=1)
+/Postgres uses sequential scan/
+***
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+***
+--SELECT primary_skill FROM student WHERE primary_skill LIKE  '% %' OR primary_skill LIKE '%-%';
+Planning Time: 0.074 ms/Execution Time: 15.330 ms
+Seq Scan on student  (cost=0.00..2506.51 rows=83174 width=10) (actual time=0.016..13.648 rows=83310 loops=1)
+
+with index on primary_skill:
+*btree index*
+Planning Time: 0.076 ms/Execution Time: 11.782 ms
+Index Only Scan using student_primary_skill_idx on student  (cost=0.29..2350.31 rows=83174 width=10)
+(actual time=0.038..10.223 rows=83310 loops=1)
+
+*gin index*
+Planning Time: 0.086 ms/Execution Time: 15.045 ms
+Seq Scan on student  (cost=0.00..2506.51 rows=83174 width=10) (actual time=0.012..13.380 rows=83310 loops=1)
+/Postgres uses sequential scan/
+***
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+***
+--SELECT * FROM student WHERE surname IS NULL OR surname LIKE '_' OR surname LIKE '_.';
+Planning Time: 0.072 ms/Execution Time: 10.398 ms
+Seq Scan on student  (cost=0.00..2506.51 rows=19 width=47) (actual time=10.385..10.386 rows=0 loops=1)
+
+with index on surname:
+*btree index*
+Planning Time: 0.093 ms/Execution Time: 12.657 ms
+Seq Scan on student  (cost=0.00..2506.51 rows=19 width=47) (actual time=16.650..16.650 rows=0 loops=1)
+
+*gin index*
+Planning Time: 0.098 ms/Execution Time: 12.328 ms
+Seq Scan on student  (cost=0.00..2506.51 rows=19 width=47) (actual time=12.312..12.313 rows=0 loops=1)
+/In both cases Postgres uses sequential scan/
+***
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+***
+--SELECT id, name, surname FROM student WHERE id IN (
+      SELECT student_id FROM exam_result
+      GROUP BY student_id HAVING count(DISTINCT subject_id) >=2
+  );
+Planning Time: 0.155 ms/Execution Time: 193.533 ms
+Seq Scan on exam_result  (cost=0.00..1541.00 rows=100000 width=8) (actual time=0.012..8.372 rows=100000 loops=1)
+
+with index on student_id:
+*btree index*
+Planning Time: 0.176 ms/Execution Time: 135.246 ms
+Index Scan using exam_result_student_id_idx on exam_result  (cost=0.29..4632.00 rows=100000 width=8) (actual time=0.011..43.209 rows=100000 loops=1)
+***
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+***
+--SELECT st.id, st.name, st.surname, round(avg(er.mark), 1) as avg_mark
+                  FROM student st
+                           JOIN exam_result er on st.id = er.student_id
+                  GROUP BY st.id
+                  HAVING avg(er.mark) > (SELECT avg(mark) FROM exam_result);
+Planning Time: 0.301 ms/Execution Time: 309.832 ms
+
+with index on student_id:
+*btree index*
+Planning Time: 0.247 ms/Execution Time: 186.619 ms
+Index Scan using exam_result_student_id_idx on exam_result er (cost=0.29..4632.00 rows=100000 width=6)
+(actual time=0.005..50.515 rows=100000 loops=1)
+
+*hash index*
+Planning Time: 0.296 ms/Execution Time: 298.608 ms
+Index Scan using exam_result_student_id_idx on exam_result er (cost=0.00..0.08 rows=2 width=6)
+(actual time=0.001..0.001 rows=1 loops=99901)
+/Using btree index more effective/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
