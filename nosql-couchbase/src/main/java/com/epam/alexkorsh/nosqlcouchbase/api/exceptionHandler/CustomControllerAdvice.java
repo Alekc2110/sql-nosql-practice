@@ -14,6 +14,6 @@ public class CustomControllerAdvice {
     public ResponseEntity<Response> handleResourceNotFoundException(ResourceNotFoundException e) {
         final String message = e.getMessage();
         Response response = new Response(String.format("%s : %s", LocalDateTime.now(), message));
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
