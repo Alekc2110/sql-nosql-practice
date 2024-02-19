@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,10 +27,10 @@ public class User {
     @Id
     private String id;
     @QueryIndexed
+    @Indexed(unique = true)
     private String email;
     @Field("fullName")
     private String fullName;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private Gender gender;
     private List<Sport> sports;

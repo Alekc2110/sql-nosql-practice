@@ -1,5 +1,8 @@
 package com.epam.alexkorsh.nosqlcouchbase;
 
+import com.epam.alexkorsh.nosqlcouchbase.domain.model.Gender;
+import com.epam.alexkorsh.nosqlcouchbase.domain.model.Sport;
+import com.epam.alexkorsh.nosqlcouchbase.domain.model.SportProficiency;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
 import com.mongodb.client.MongoClient;
@@ -15,7 +18,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -33,6 +38,12 @@ public class NosqlCouchbaseApplication {
         User user = User.builder()
                 .fullName("Alex Korsh")
                 .email("alexal@mail.com")
+                .birthDate(LocalDate.of(1975, 10, 10))
+                .gender(Gender.MALE)
+                .sports(List.of(
+                        Sport.builder().sportName("Golf").sportProficiency(SportProficiency.ADVANCED).build(),
+                        Sport.builder().sportName("Football").sportProficiency(SportProficiency.EXPERT).build())
+                )
                 .build();
 
 
