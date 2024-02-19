@@ -37,21 +37,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.11.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>3.2.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-crypt -->
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-crypt</artifactId>
-            <version>1.8.0</version>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.4.2</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -67,6 +64,24 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+<!--            my example plugin usage-->
+            <plugin>
+                <groupId>com.example</groupId>
+                <artifactId>MyMavenPlugin-Time-Note</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>TimeAndDependencyCountIndicationPlugin</goal>
+                        </goals>
+                    </execution>
+                </executions>
+<!--                optional -> pass scope to count particular number of dependencies-->
+<!--                <configuration>-->
+<!--                    <scope>test</scope>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
