@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost/mydb?authSource=admin
+#      username: root
+#      password: example
+#      host: localhost
+#      port: 27017
+#      database: mydb
+#      authentication-database: admin
+
+

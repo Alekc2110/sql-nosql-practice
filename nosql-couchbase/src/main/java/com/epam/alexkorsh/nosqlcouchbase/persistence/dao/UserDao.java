@@ -15,4 +15,6 @@ public interface UserDao {
     List<User> findBySportName(String sportName);
 
     List<User> searchUsers(String query);
+
+    void deleteUser(String userId);
 }

@@ -1,9 +1,12 @@
 package com.epam.alexkorsh.nosqlcouchbase.api;
 
+import com.epam.alexkorsh.nosqlcouchbase.api.dto.SportDto;
+import com.epam.alexkorsh.nosqlcouchbase.api.dto.UserDto;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.Sport;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.domain.service.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,39 +19,43 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final ModelMapper mapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserById(@PathVariable String id) {
+        UserDto userDto = mapper.map(userService.getUserById(id), UserDto.class);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
+        UserDto userDto = mapper.map(userService.getUserByEmail(email), UserDto.class);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @GetMapping("/sport/{sportName}")
-    public List<User> getUserBySportName(@PathVariable String sportName) {
-        return userService.getUserBySportName(sportName);
+    public List<UserDto> getUserBySportName(@PathVariable String sportName) {
+        return userService.getUserBySportName(sportName)
+                .stream().map(user -> mapper.map(user, UserDto.class)).toList();
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        UserDto savedUserDto = mapper.map(userService.createUser(mapper.map(userDto, User.class)), UserDto.class);
+        return new ResponseEntity<>(savedUserDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/sport")
-    public ResponseEntity<User> addSportToUser(@PathVariable String id, @RequestBody Sport sport) {
-        User updatedUser = userService.addSportToUser(id, sport);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserDto> addSportToUser(@PathVariable String id, @RequestBody SportDto sportDto) {
+        UserDto updatedUserDto = mapper.map(
+                userService.addSportToUser(id, mapper.map(sportDto, Sport.class)), UserDto.class);
+        return ResponseEntity.ok(updatedUserDto);
     }
 
     @GetMapping("/search/user")
-    public ResponseEntity<List<User>> searchUsers(@RequestParam("q") String query) {
-        List<User> foundUsersIds = userService.search(query);
+    public ResponseEntity<List<UserDto>> searchUsers(@RequestParam("q") String query) {
+        List<UserDto> foundUsersIds = userService.search(query).stream()
+                .map(user -> mapper.map(user, UserDto.class)).toList();
         return ResponseEntity.ok(foundUsersIds);
     }
 

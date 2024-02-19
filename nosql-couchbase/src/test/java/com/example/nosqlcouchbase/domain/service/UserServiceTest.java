@@ -58,7 +58,7 @@ class UserServiceTest {
         User result = subject.getUserById(userId);
 
         //then
-        assertThat(result.getId()).isEqualTo(UUID.fromString(userId));
+        assertThat(result.getId()).isEqualTo(userId);
     }
 
     @Test
@@ -159,8 +159,8 @@ class UserServiceTest {
     void searchTest() {
         //given
         List<User> users = Arrays.asList(
-                new User(UUID.randomUUID(), "john_doe@epam.com", "John Doe", LocalDate.of(1990, 10, 10), Gender.MALE, List.of()),
-                new User(UUID.randomUUID(), "jane_doe@epam.com", "Jane Doe", LocalDate.of(1995, 5, 15), Gender.FEMALE, List.of())
+                new User("9e9a5147-8ebb-4344-a55a-784515421252", "john_doe@epam.com", "John Doe", LocalDate.of(1990, 10, 10), Gender.MALE, List.of()),
+                new User("9e9a5147-8ebb-4344-a55a-b8cdfd758755", "jane_doe@epam.com", "Jane Doe", LocalDate.of(1995, 5, 15), Gender.FEMALE, List.of())
         );
         String query = "john";
         when(repository.searchUsers(query)).thenReturn(users);
@@ -175,7 +175,7 @@ class UserServiceTest {
 
     private static User getUser() {
         User user = new User();
-        user.setId(UUID.fromString("9e9a5147-8ebb-4344-a55a-b845aa6e2655"));
+        user.setId("9e9a5147-8ebb-4344-a55a-b845aa6e2655");
         user.setEmail("john_doe@epam.com");
         user.setFullName("John Doe");
         user.setBirthDate(LocalDate.of(1990, 10, 10));
@@ -185,7 +185,7 @@ class UserServiceTest {
 
     private static Sport getSportActivity() {
         Sport sport = new Sport();
-        sport.setId(UUID.randomUUID());
+        sport.setId("9e9a5147-8ebb-4344-a55a-b845aa6e7777");
         sport.setSportName("Football");
         sport.setSportProficiency(SportProficiency.EXPERT);
         return sport;

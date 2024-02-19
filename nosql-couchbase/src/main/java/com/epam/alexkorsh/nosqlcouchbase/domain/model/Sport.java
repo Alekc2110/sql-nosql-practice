@@ -1,8 +1,7 @@
 package com.epam.alexkorsh.nosqlcouchbase.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
@@ -10,12 +9,16 @@ import org.springframework.data.couchbase.core.mapping.Document;
 import java.util.UUID;
 
 @Document
-@Data
+@org.springframework.data.mongodb.core.mapping.Document
+@EqualsAndHashCode
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Sport {
     @Id
-    private UUID id;
+    private String id;
     @QueryIndexed
     private String sportName;
     private SportProficiency sportProficiency;

@@ -1,4 +1,4 @@
-package com.epam.alexkorsh.nosqlcouchbase.persistence.dao;
+package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.couchbaseRepository;
 
 import com.couchbase.client.core.error.CouchbaseException;
 import com.couchbase.client.java.Cluster;
@@ -6,9 +6,11 @@ import com.couchbase.client.java.search.SearchQuery;
 import com.couchbase.client.java.search.result.SearchResult;
 import com.couchbase.client.java.search.result.SearchRow;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
+import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.repository.couchbaseRepository.UserCBRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Profile("couchbase")
 @Slf4j
 @AllArgsConstructor
 @Repository
@@ -56,14 +59,18 @@ public class UserCouchbaseDao implements UserDao {
                 userIdsList.add(row.id());
             }
 
-            List<UUID> uuidList = userIdsList.stream().map(UUID::fromString).toList();
-            foundUsers = repository.findAllByIdIn(uuidList);
+            foundUsers = repository.findAllByIdIn(userIdsList);
 
         } catch (CouchbaseException ex) {
             log.error("could not search by query: " + query, ex);
         }
 
         return foundUsers;
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+
     }
 
 }

@@ -1,26 +1,31 @@
 package com.epam.alexkorsh.nosqlcouchbase.domain.model;
 
 import com.couchbase.client.core.deps.com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Document
+@org.springframework.data.mongodb.core.mapping.Document
+@EqualsAndHashCode
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Builder
 public class User {
     @Id
-    private UUID id;
+    private String id;
     @QueryIndexed
     private String email;
+    @Field("fullName")
     private String fullName;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
