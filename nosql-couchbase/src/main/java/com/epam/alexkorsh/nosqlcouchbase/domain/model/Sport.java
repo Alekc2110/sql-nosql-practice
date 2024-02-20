@@ -20,6 +20,7 @@ public class Sport {
     @QueryIndexed
     @TextIndexed
     private String sportName;
+    @TextIndexed
     private SportProficiency sportProficiency;
 
 }

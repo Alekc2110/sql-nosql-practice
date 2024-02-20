@@ -52,11 +52,23 @@ public class UserController {
         return ResponseEntity.ok(updatedUserDto);
     }
 
+    /**
+     * for MongoDb -> search available on fullName,
+     * Sport.sportName, Sport.sportProficiency
+     * @param query
+     * @return
+     */
     @GetMapping("/search/user")
     public ResponseEntity<List<UserDto>> searchUsers(@RequestParam("q") String query) {
         List<UserDto> foundUsersIds = userService.search(query).stream()
                 .map(user -> mapper.map(user, UserDto.class)).toList();
         return ResponseEntity.ok(foundUsersIds);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteUserById(@PathVariable("id") String userId) {
+    userService.deleteUserById(userId);
     }
 
 }

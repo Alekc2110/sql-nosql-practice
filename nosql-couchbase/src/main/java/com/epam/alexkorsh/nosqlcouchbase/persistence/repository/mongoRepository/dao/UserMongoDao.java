@@ -40,20 +40,19 @@ public class UserMongoDao implements UserDao {
 
     @Override
     public List<User> findAllBySportName(String sportName) {
-        var criteria = TextCriteria.forDefaultLanguage().matchingAny(sportName);
-        return repository.findAllBy(criteria);
+        return searchUsers(sportName);
     }
 
     @Override
     public List<User> searchUsers(String query) {
-        return List.of();
+        var criteria = TextCriteria.forDefaultLanguage().matchingAny(query);
+        return repository.findAllBy(criteria);
     }
 
     @Override
     public void deleteUser(String userId) {
-
+        repository.deleteById(userId);
     }
-
 }
 
 

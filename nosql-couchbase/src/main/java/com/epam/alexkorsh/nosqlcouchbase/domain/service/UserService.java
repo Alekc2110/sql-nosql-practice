@@ -46,4 +46,8 @@ public class UserService {
       return repository.searchUsers(query);
     }
 
+    public void deleteUserById(String userId) {
+        repository.deleteUser(userId);
+    }
+
 }
