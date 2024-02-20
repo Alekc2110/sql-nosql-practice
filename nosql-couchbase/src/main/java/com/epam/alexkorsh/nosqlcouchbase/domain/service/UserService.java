@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public List<User> getUserBySportName(String sportName) {
-       return repository.findBySportName(sportName);
+       return repository.findAllBySportName(sportName);
     }
 
     public List<User> search(String query) {

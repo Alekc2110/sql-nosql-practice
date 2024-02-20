@@ -1,15 +1,12 @@
 package com.epam.alexkorsh.nosqlcouchbase.domain.model;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 
-import java.util.UUID;
-
-@Document
-@org.springframework.data.mongodb.core.mapping.Document
+@Document/*for couchbase*/
 @EqualsAndHashCode
 @Getter
 @Setter
@@ -21,6 +18,7 @@ public class Sport {
     @Id
     private String id;
     @QueryIndexed
+    @TextIndexed
     private String sportName;
     private SportProficiency sportProficiency;
 

@@ -142,7 +142,7 @@ class UserServiceTest {
         User user = getUser();
         user.setSports(new ArrayList<>(List.of(sport)));
         ArrayList<User> users = new ArrayList<>(List.of(user));
-        when(repository.findBySportName("Tennis")).thenReturn(users);
+        when(repository.findAllBySportName("Tennis")).thenReturn(users);
 
         //when
         List<User> userList = subject.getUserBySportName("Tennis");

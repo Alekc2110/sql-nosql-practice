@@ -1,11 +1,14 @@
-package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository;
+package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.dao;
 
+import com.epam.alexkorsh.nosqlcouchbase.domain.model.Sport;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
+import com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.UserMongoRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,8 +39,9 @@ public class UserMongoDao implements UserDao {
     }
 
     @Override
-    public List<User> findBySportName(String sportName) {
-        return repository.findUsersBySportsExists(sportName);
+    public List<User> findAllBySportName(String sportName) {
+        var criteria = TextCriteria.forDefaultLanguage().matchingAny(sportName);
+        return repository.findAllBy(criteria);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class UserCouchbaseDao implements UserDao {
     }
 
     @Override
-    public List<User> findBySportName(String sportName) {
+    public List<User> findAllBySportName(String sportName) {
         return repository.findBySportName(sportName);
     }
 

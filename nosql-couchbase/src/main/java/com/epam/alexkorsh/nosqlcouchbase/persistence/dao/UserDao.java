@@ -12,7 +12,7 @@ public interface UserDao {
 
     Optional<User> findByEmail(String email);
 
-    List<User> findBySportName(String sportName);
+    List<User> findAllBySportName(String sportName);
 
     List<User> searchUsers(String query);
 
