@@ -7,7 +7,6 @@ import com.couchbase.client.java.search.result.SearchResult;
 import com.couchbase.client.java.search.result.SearchRow;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
-import com.epam.alexkorsh.nosqlcouchbase.persistence.repository.couchbaseRepository.UserCBRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Profile("couchbase")
 @Slf4j
