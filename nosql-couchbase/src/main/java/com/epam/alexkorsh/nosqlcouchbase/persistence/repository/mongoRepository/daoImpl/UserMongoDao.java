@@ -1,6 +1,5 @@
-package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.dao;
+package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.daoImpl;
 
-import com.epam.alexkorsh.nosqlcouchbase.domain.model.Sport;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.UserMongoRepository;

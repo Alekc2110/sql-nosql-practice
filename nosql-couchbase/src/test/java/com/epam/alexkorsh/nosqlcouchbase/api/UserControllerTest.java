@@ -1,6 +1,5 @@
-package com.example.nosqlcouchbase.api;
+package com.epam.alexkorsh.nosqlcouchbase.api;
 
-import com.epam.alexkorsh.nosqlcouchbase.api.UserController;
 import com.epam.alexkorsh.nosqlcouchbase.api.dto.SportDto;
 import com.epam.alexkorsh.nosqlcouchbase.api.dto.UserDto;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.Gender;
@@ -8,10 +7,11 @@ import com.epam.alexkorsh.nosqlcouchbase.domain.model.Sport;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.SportProficiency;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.domain.service.UserService;
-import org.assertj.core.api.Assert;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -19,7 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package com.example.nosqlcouchbase.domain.service;
+package com.epam.alexkorsh.nosqlcouchbase.service;
 
 import com.epam.alexkorsh.nosqlcouchbase.domain.exception.ResourceNotFoundException;
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.Gender;

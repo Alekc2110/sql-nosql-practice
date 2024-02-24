@@ -1,4 +1,4 @@
-package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.dao;
+package com.epam.alexkorsh.nosqlcouchbase.persistence.repository.mongoRepository.daoImpl;
 
 import com.epam.alexkorsh.nosqlcouchbase.domain.model.User;
 import com.epam.alexkorsh.nosqlcouchbase.persistence.dao.UserDao;
@@ -20,7 +20,6 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 @Repository
-//@Primary
 public class UserMongoDaoMongoTemplate implements UserDao {
 
     private final MongoTemplate template;

@@ -1,5 +1,6 @@
 package com.epam.alexkorsh.nosqlcouchbase.persistence.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -13,15 +14,18 @@ import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Slf4j
 @Component
 public class IndexCreationListener {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @EventListener(ContextRefreshedEvent.class)
-    public void initIndicesAfterStartup() {
-
+    @EventListener/*(ContextRefreshedEvent.class)*/
+    public void initIndicesAfterStartup(ContextRefreshedEvent event) {
         MappingContext<? extends MongoPersistentEntity<?>, MongoPersistentProperty> mappingContext = mongoTemplate
                 .getConverter().getMappingContext();
 
@@ -32,7 +36,6 @@ public class IndexCreationListener {
                 .stream()
                 .filter(it -> it.isAnnotationPresent(Document.class))
                 .forEach(it -> {
-
                     IndexOperations indexOps = mongoTemplate.indexOps(it.getType());
                     resolver.resolveIndexFor(it.getType()).forEach(indexOps::ensureIndex);
                 });
